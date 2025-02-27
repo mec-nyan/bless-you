@@ -1,5 +1,6 @@
 #include <curses.h>
 #include <clocale>
+#include <iostream>
 #include <string>
 
 
@@ -14,13 +15,24 @@ public:
 	Ncurses( NcursesOptions );
 	~Ncurses();
 
-	int  add_str( std::string ) const;
-	int  add_str_at( std::string, int, int ) const;
-	int  paint( bool ) const;
-	char get_char() const;
+	int add_str( std::string ) const;
+	int add_str_at( std::string, int, int ) const;
+	int paint( bool ) const;
+
+	enum class Color { BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE };
+
+	Ncurses* set_fg( Color );
+	Ncurses* set_bg( Color );
+
+	enum class Style { NORMAL, BOLD, DIM, ITALIC, STROKE, REVERSE, HIDDEN, BLINK, UNDERLINE };
+
+	Ncurses* set_attr( Style );
+	Ncurses* del_attr( Style );
 
 	int show() const;
 	int clear() const;
+
+	char get_char() const;
 
 private:
 	WINDOW* screen;
@@ -50,6 +62,11 @@ inline Ncurses::~Ncurses() {
 		nocbreak();
 		curs_set( true );
 		endwin();
+	}
+	// TODO: Verbose finalization of curses.
+	// Maybe add terminal info, etc.
+	if ( std::getenv( "BLESS_YOU_VERBOSE" ) ) {
+		std::cout << "Bless you!\n";
 	}
 }
 
@@ -106,4 +123,70 @@ inline int Ncurses::clear() const {
 
 inline int Ncurses::show() const {
 	return doupdate();
+}
+
+inline Ncurses* Ncurses::set_attr( Ncurses::Style st ) {
+	switch (st) {
+		case Style::NORMAL:
+		wattrset(screen, A_NORMAL);
+		break;
+		case Style::BOLD:
+		wattrset(screen, A_BOLD);
+		break;
+		case Style::DIM:
+		wattrset(screen, A_DIM);
+		break;
+		case Style::ITALIC:
+		wattrset(screen, A_ITALIC);
+		break;
+		case Style::STROKE:
+			// TODO: curses dosn't handle strikethrough.
+		break;
+		case Style::REVERSE:
+		wattrset(screen, A_STANDOUT);
+		break;
+		case Style::HIDDEN:
+		wattrset(screen, A_PROTECT);
+		break;
+		case Style::BLINK:
+		wattrset(screen, A_BLINK);
+		break;
+		case Style::UNDERLINE:
+		wattrset(screen, A_UNDERLINE);
+		break;
+	}
+	return this;
+}
+
+inline Ncurses* Ncurses::del_attr( Ncurses::Style st ) {
+	switch (st) {
+		case Style::NORMAL:
+		wattroff(screen, A_NORMAL);
+		break;
+		case Style::BOLD:
+		wattroff(screen, A_BOLD);
+		break;
+		case Style::DIM:
+		wattroff(screen, A_DIM);
+		break;
+		case Style::ITALIC:
+		wattroff(screen, A_ITALIC);
+		break;
+		case Style::STROKE:
+			// TODO: curses dosn't handle strikethrough.
+		break;
+		case Style::REVERSE:
+		wattroff(screen, A_STANDOUT);
+		break;
+		case Style::HIDDEN:
+		wattroff(screen, A_PROTECT);
+		break;
+		case Style::BLINK:
+		wattroff(screen, A_BLINK);
+		break;
+		case Style::UNDERLINE:
+		wattroff(screen, A_UNDERLINE);
+		break;
+	}
+	return this;
 }
