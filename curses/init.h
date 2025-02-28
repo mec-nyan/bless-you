@@ -1,6 +1,7 @@
 #include <curses.h>
 #include <iso646.h>
 #include <locale.h>
+#include <stdlib.h>
 
 // This is just an example. We don't need to elaborate or pass
 // arguments for different initialization options.
@@ -39,12 +40,14 @@ int setup(void) {
 	return 0;
 }
 
-// Uset "atexit( clean )". So even if we exit with error early we will
+// Use "atexit( clean )". So even if we exit with error early we will
 // free resources and restore the terminal to its original state.
 void clean( void ) {
 	echo();
 	nocbreak();
 	curs_set( 1 );
 	endwin();
-	printf( "All cleaned up!\n" );
+	if (getenv("BLESS_YOU_VERBOSE")) {
+		printf( "All cleaned up!\n" );
+	}
 }

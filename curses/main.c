@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "init.h"
-#include "typewriter.h"
+#include "info.h"
 
 
 int main( void ) {
@@ -19,17 +19,7 @@ int main( void ) {
 
 	setup();
 
-	char line[ 200 ];
-	sprintf( line, "This is ncurses version %d.%d", NCURSES_VERSION_MAJOR, NCURSES_VERSION_MINOR );
-
-	int ms = 1500;
-
-	type_at_and_wait( line, (Pos){ 2, 4 }, ms );
-
-	type_at_and_wait( "Have you heard about it?", (Pos){ 4, 4 }, ms );
-
-	type_at_and_wait( "See you then!", (Pos){ 6, 4 }, ms );
-
+	show_info();
 
 	return 0;
 }
