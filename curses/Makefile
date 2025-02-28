@@ -1,5 +1,5 @@
-IN = curses.c
-OUT = curses.o
+IN = main.c
+OUT = main.o
 COMPILER_FLAGS = -I /opt/homebrew/opt/ncurses/include \
 				 -lncurses \
  				 -std=c17 -Wall -Werror -Wpedantic
