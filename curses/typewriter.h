@@ -8,6 +8,9 @@ Pos new_pos( int y, int x ) {
 	return (Pos){ y, x };
 }
 
+// TODO: Don't use a global!
+int ms = 50;
+
 // TODO: Improve this functions iterating each letter/symbol and not
 // "bytes" since some unicode characters will occupy several bytes.
 int type( const char* text ) {
@@ -16,7 +19,8 @@ int type( const char* text ) {
 	while ( *text ) {
 		addch( *text++ );
 		refresh();
-		napms( 50 );
+		// TODO: Don't use a global!
+		napms( ms );
 		count++;
 	}
 	return count;

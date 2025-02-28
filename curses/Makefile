@@ -15,5 +15,8 @@ run_verbose: $(OUT)
 	@if [ -e ./$(OUT) ]; then \
 		export BLESS_YOU_VERBOSE=1 && ./$(OUT); fi
 
+run_fast: $(OUT)
+	@if [ -e ./$(OUT) ]; then ./$(OUT) --fast; fi
+
 clean:
 	@if [ -e ./$(OUT) ]; then rm ./$(OUT); fi

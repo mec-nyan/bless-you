@@ -3,11 +3,12 @@
 #include <iso646.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "init.h"
+#include <string.h>
 #include "info.h"
+#include "init.h"
 
 
-int main( void ) {
+int main( int argc, char* argv[] ) {
 	//
 	WINDOW* screen = init_curses();
 	if ( not screen ) {
@@ -17,9 +18,13 @@ int main( void ) {
 
 	atexit( clean );
 
+	int wait = set_speed( argc > 1 and strncmp( argv[ 1 ], "--fast", 6 ) == 0 );
+
 	setup();
 
-	show_info();
+	show_info( wait );
+
+	quit( wait );
 
 	return 0;
 }
