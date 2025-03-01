@@ -1,16 +1,15 @@
 #include <curses.h>
 
+
 typedef struct {
 	int fps, wait;
-} timing;
+} Timing;
+
 
 typedef struct {
 	int y, x;
 } Pos;
 
-Pos new_pos( int y, int x ) {
-	return (Pos){ y, x };
-}
 
 Pos incr_y( Pos p, int incr ) {
 	return (Pos){ p.y + incr, p.x };
@@ -44,7 +43,7 @@ int type_at( const char* text, Pos p, int fps ) {
 	return type( text, fps );
 }
 
-int type_at_and_wait( const char* text, Pos p, timing t ) {
+int type_at_and_wait( const char* text, Pos p, Timing t ) {
 	int got = type_at( text, p, t.fps );
 	napms( t.wait );
 	return got;

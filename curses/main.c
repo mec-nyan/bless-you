@@ -18,7 +18,7 @@ int main( int argc, char* argv[] ) {
 
 	atexit( clean );
 
-	timing t = set_speed( argc > 1 and strncmp( argv[ 1 ], "--fast", 6 ) == 0 );
+	Timing t = set_speed( argc > 1 and strncmp( argv[ 1 ], "--fast", 6 ) == 0 );
 
 	setup();
 
