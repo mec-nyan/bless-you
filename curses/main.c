@@ -18,13 +18,13 @@ int main( int argc, char* argv[] ) {
 
 	atexit( clean );
 
-	int wait = set_speed( argc > 1 and strncmp( argv[ 1 ], "--fast", 6 ) == 0 );
+	timing t = set_speed( argc > 1 and strncmp( argv[ 1 ], "--fast", 6 ) == 0 );
 
 	setup();
 
-	show_info( wait );
+	show_info( t );
 
-	quit( wait );
+	quit( t );
 
 	return 0;
 }
